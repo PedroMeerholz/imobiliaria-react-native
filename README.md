@@ -1,5 +1,7 @@
 # Imobiliaria
 
+Projeto desenvolvido durante a unidade curricular de Desenvolvimento de Sistemas para Dispositivos Móveis.
+
 ## v1.0
 Consiste na montagem das seguintes telas:
 * Home
