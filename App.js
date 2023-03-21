@@ -5,8 +5,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Consulta from "./src/components/Consulta";
 import Home from "./src/components/Home";
 import RegistroImovel from "./src/components/RegistroImovel";
+import { MaterialIcons } from '@expo/vector-icons';
 
-export default () => {
+export default (props) => {
   const Stack = createNativeStackNavigator();
 
   return (
@@ -15,7 +16,17 @@ export default () => {
         <Stack.Navigator initialRouteName="Home">
             <Stack.Screen name="Home" component={Home} options={{title: 'Home'}}/>
             <Stack.Screen name="CadastroImovel" component={RegistroImovel} options={{title: 'Registro de Imóveis'}}/>
-            <Stack.Screen name="ConsultaImovel" component={Consulta} options={{title: 'Consulta de Imoveis'}}/>
+            <Stack.Screen name="ConsultaImovel" component={Consulta} 
+              options={({navigation}) => { 
+                return {
+                  title: 'Consulta de Imoveis', headerRight: () => {
+                    return (
+                      <MaterialIcons name="add" size={30} onPress={() => {
+                        navigation.navigate("CadastroImovel")}}></MaterialIcons>
+                    );
+                  }
+                }
+              }}/>
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
