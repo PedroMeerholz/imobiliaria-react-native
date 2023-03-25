@@ -1,60 +1,42 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ListItem } from "@rneui/themed";
-import { Button, SafeAreaView, Image, StyleSheet, View, ScrollView, Text } from "react-native";
+import { Button, Image, StyleSheet, View, ScrollView, Text } from "react-native";
+import Context from "../context/Context";
+import { MaterialIcons } from "@expo/vector-icons";
 
-const Consulta = () => {
+const Consulta = (props) => {
     const buttonColor = 'orange';
+    const {state, dispatch} = useContext(Context);
     return (
-        <ScrollView>
-            <SafeAreaView style={Style.safeAreaView}>
-                <View>
-                    <ListItem bottomDivider style={Style.listItem}>
-                        <ListItem.Content>
-                            <Image style={Style.image} source={{uri:"https://emccamp.com.br//box/uploads/2021/06/Apartamento-decorado-confira-5-dicas-de-decoracao-1.jpg"}}></Image>
-                            <Text style={Style.text_info}><Text style={Style.bolderText}>Tipo:</Text> Apartamento</Text>
-                            <Text style={Style.text_info}><Text style={Style.bolderText}>Valor:</Text> R$3.200</Text>
-                            <Text style={Style.text_info}><Text style={Style.bolderText}>Endereço:</Text> Rua Abacaxi, n° 89</Text>
-                            <ListItem>
-                                <Button title="Alugar" color={buttonColor}></Button>
-                                <Button title="Editar" color={buttonColor}></Button>
-                                <Button title="Excluir" color={buttonColor}></Button>
+        <ScrollView style={Style.scrollView}>
+            <View>
+                {
+                    state.imoveisAluguel.map(imovel => {
+                        return (
+                            <ListItem bottomDivider style={Style.listItem} key={imovel.endereco}>
+                                <ListItem.Content>
+                                    <Image style={Style.image} source={{uri:"https://emccamp.com.br//box/uploads/2021/06/Apartamento-decorado-confira-5-dicas-de-decoracao-1.jpg"}}></Image>
+                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Tipo contrato:</Text> {imovel.contrato}</Text>
+                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Tipo:</Text> {imovel.tipo}</Text>
+                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Valor:</Text> R${imovel.valor}</Text>
+                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Endereço:</Text> {imovel.endereco}</Text>
+                                    <ListItem>
+                                        <Button title="Alugar" color={buttonColor}></Button>
+                                        <Button title="Editar" color={buttonColor}></Button>
+                                        <MaterialIcons  name={'delete'}  size={30} onPress={() => {dispatch({action: 'remover', value: imovel})}}/>
+                                    </ListItem>
+                                </ListItem.Content>
                             </ListItem>
-                        </ListItem.Content>
-                    </ListItem>
-                    <ListItem bottomDivider style={Style.listItem}>
-                        <ListItem.Content>
-                            <Image style={Style.image} source={{uri:"https://emccamp.com.br//box/uploads/2021/06/Apartamento-decorado-confira-5-dicas-de-decoracao-1.jpg"}}></Image>
-                            <Text style={Style.text_info}><Text style={Style.bolderText}>Tipo:</Text> Apartamento</Text>
-                            <Text style={Style.text_info}><Text style={Style.bolderText}>Valor:</Text> R$3.200</Text>
-                            <Text style={Style.text_info}><Text style={Style.bolderText}>Endereço:</Text> Rua Tomate, n° 35</Text>
-                            <ListItem>
-                                <Button title="Alugar" color={buttonColor}></Button>
-                                <Button title="Editar" color={buttonColor}></Button>
-                                <Button title="Excluir" color={buttonColor}></Button>
-                            </ListItem>
-                        </ListItem.Content>
-                    </ListItem>
-                    <ListItem bottomDivider style={Style.listItem}>
-                        <ListItem.Content>
-                            <Image style={Style.image} source={{uri:"https://emccamp.com.br//box/uploads/2021/06/Apartamento-decorado-confira-5-dicas-de-decoracao-1.jpg"}}></Image>
-                            <Text style={Style.text_info}><Text style={Style.bolderText}>Tipo:</Text> Apartamento</Text>
-                            <Text style={Style.text_info}><Text style={Style.bolderText}>Valor:</Text> R$3.200</Text>
-                            <Text style={Style.text_info}><Text style={Style.bolderText}>Endereço:</Text> Rua Chocolate, n° 22</Text>
-                            <ListItem>
-                                <Button title="Alugar" color={buttonColor}></Button>
-                                <Button title="Editar" color={buttonColor}></Button>
-                                <Button title="Excluir" color={buttonColor}></Button>
-                            </ListItem>
-                        </ListItem.Content>
-                    </ListItem>
-                </View>
-            </SafeAreaView>
+                        );
+                    })
+                }
+            </View>
         </ScrollView>
     );
 }
 
 const Style = StyleSheet.create({
-    safeAreaView: {
+    scrollView: {
         marginHorizontal: 10,
         marginTop: 15
     },

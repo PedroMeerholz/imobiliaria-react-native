@@ -16,17 +16,26 @@ const RegistroImovel = () => {
     const [switchState, setSwitchState] = useState(false);
     const toggleSwitch = () => setSwitchState(previousState => !previousState);
 
-    const [dropdownValue, setDropdownValue] = useState('');
+    const [moradia, setMoradia] = useState('');
+    const [contrato, setContrato] = useState('');
 
     return (
         <ScrollView>
             <View style={Style.view}>
                 <Image style={Style.image} source={{uri:"https://emccamp.com.br//box/uploads/2021/06/Apartamento-decorado-confira-5-dicas-de-decoracao-1.jpg"}}></Image>
+                <Text>Tipo contrato:</Text>
+                <Picker selectedValue={contrato} onValueChange={(itemValue, itemIndex) => {
+                    setContrato(itemValue);
+                }}>
+                    <Picker.Item label="" value={""}/>
+                    <Picker.Item label="Venda" value={"Venda"}/>
+                    <Picker.Item label="Aluguel" value={"Aluguel"}/>
+                </Picker>
                 <Text>Endereço:</Text>
                 <TextInput style={Style.textInput}/>
                 <Text>Tipo moradia:</Text>
-                <Picker selectedValue={dropdownValue} onValueChange={(itemValue, itemIndex) => {
-                    setDropdownValue(itemValue);
+                <Picker selectedValue={moradia} onValueChange={(itemValue, itemIndex) => {
+                    setMoradia(itemValue);
                 }}>
                     <Picker.Item label="" value={""}/>
                     <Picker.Item label="Apartamento" value={"Apartamento"}/>
@@ -42,7 +51,7 @@ const RegistroImovel = () => {
                     <Text>Locado:</Text>
                     <Switch style={Style.switch} value={switchState} onValueChange={toggleSwitch} thumbColor={'orange'}></Switch>
                 </View>
-                {dropdownValue == 'Apartamento' && requestCondominio()}
+                {moradia == 'Apartamento' && requestCondominio()}
                 <Button title={'Cadastrar'} color='orange'></Button>
             </View> 
         </ScrollView>
@@ -51,13 +60,13 @@ const RegistroImovel = () => {
 
 const Style = StyleSheet.create({
     textInput: {
-        'borderColor': 'orange',
-        'borderWidth': 2,
-        'marginBottom': 10
+        borderColor: 'orange',
+        borderWidth: 2,
+        marginBottom: 10
     }, 
     view: {
-        'marginVertical': 20,
-        'marginHorizontal': 30
+        marginVertical: 20,
+        marginHorizontal: 30
     },
     horizontalView: {
         flexDirection: 'row',
