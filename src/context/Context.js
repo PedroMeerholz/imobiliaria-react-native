@@ -39,7 +39,7 @@ export const ContextProvider = (props) => {
             const Imovel = {
                 contrato: action.value['contrato'],
                 tipo: action.value['tipo'],
-                valor: action.value['valorAluguel'],
+                valorAluguel: action.value['valorAluguel'],
                 condominio: action.value['condominio'],
                 endereco: action.value['endereco'],
                 quartos: action.value['quartos'],
@@ -48,6 +48,23 @@ export const ContextProvider = (props) => {
                 valorVenda: action.value['valorVenda']
             }
             state['imoveisAluguel'].push(Imovel);
+        } else if (action.action == 'editar') {
+            let newContext = state.imoveisAluguel.filter(imovel => imovel.endereco !== action.value[0].endereco);
+            const Imovel = {
+                contrato: action.value[1]['contrato'],
+                tipo: action.value[1]['tipo'],
+                valorAluguel: action.value[1]['valorAluguel'],
+                condominio: action.value[1]['condominio'],
+                endereco: action.value[1]['endereco'],
+                quartos: action.value[1]['quartos'],
+                banheiros: action.value[1]['banheiros'],
+                locado: action.value[1]['locado'],
+                valorVenda: action.value[1]['valorVenda']
+            }
+            newContext.push(Imovel);
+            return {
+                ...state, imoveisAluguel: newContext
+            }
         }
         return state;
     }

@@ -45,7 +45,9 @@ const Consulta = (props) => {
                                     <Text style={Style.text_info}><Text style={Style.bolderText}>Locado:</Text> {imovel.locado}</Text>
                                     <ListItem>
                                         <Button title="Alugar" color={buttonColor}></Button>
-                                        <Button title="Editar" color={buttonColor}></Button>
+                                        <Button title="Editar" color={buttonColor} onPress={() => {
+                                            props.navigation.navigate("EdicaoImovel", imovel);
+                                        }}></Button>
                                         <MaterialIcons  name={'delete'}  size={30} onPress={() => {dispatch({action: 'remover', value: imovel})}}/>
                                     </ListItem>
                                 </ListItem.Content>

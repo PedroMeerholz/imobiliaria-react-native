@@ -7,6 +7,7 @@ import Home from "./src/components/Home";
 import RegistroImovel from "./src/components/RegistroImovel";
 import { MaterialIcons } from '@expo/vector-icons';
 import { ContextProvider } from "./src/context/Context";
+import EdicaoImovel from "./src/components/EdicaoImovel";
 
 export default (props) => {
   const Stack = createNativeStackNavigator();
@@ -29,6 +30,7 @@ export default (props) => {
                     }
                   }
                 }}/>
+              <Stack.Screen name="EdicaoImovel" component={EdicaoImovel} options={{title: 'Editar Imóvel'}}/>
           </Stack.Navigator>
         </NavigationContainer>
       </ContextProvider>

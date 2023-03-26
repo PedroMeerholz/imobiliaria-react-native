@@ -31,7 +31,7 @@ function renderCompra(onValueChangeFunction) {
     );
 }
 
-const RegistroImovel = () => {
+const RegistroImovel = (props) => {
     const {state, dispatch} = useContext(Context);
 
     const [contrato, setContrato] = useState('');
@@ -74,10 +74,13 @@ const RegistroImovel = () => {
                 <TextInput style={Style.textInput} onChangeText={setQuartos} keyboardType='numeric'/>
                 <Text>Número de banheiros:</Text>
                 <TextInput style={Style.textInput} onChangeText={setBanheiros} keyboardType='numeric'/>
-                <View style={Style.horizontalView}>
-                    <Text>Locado:</Text>
-                    <Switch style={Style.switch} value={locado} onValueChange={toggleSwitch} thumbColor={'orange'}></Switch>
-                </View>
+                <Text>Locado:</Text>
+                <Picker selectedValue={locado} onValueChange={(itemValue, itemIndex) => {
+                    setLocado(itemValue);
+                }}>
+                    <Picker.Item label="Não" value={"Não"}/>
+                    <Picker.Item label="Sim" value={"Sim"}/>
+                </Picker>
                 <Button title={'Cadastrar'} color='orange' onPress={() => {
                     const imovel = {
                         contrato: contrato,
@@ -101,15 +104,12 @@ const Style = StyleSheet.create({
     textInput: {
         borderColor: 'orange',
         borderWidth: 2,
-        marginBottom: 10
+        marginBottom: 10,
+        paddingLeft: 5
     }, 
     view: {
         marginVertical: 20,
         marginHorizontal: 30
-    },
-    horizontalView: {
-        flexDirection: 'row',
-        alignItems: 'center'
     },
     switch: {
         marginBottom: 15
