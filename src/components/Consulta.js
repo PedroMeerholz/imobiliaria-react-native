@@ -43,11 +43,9 @@ const Consulta = (props) => {
                                     <Text style={Style.text_info}><Text style={Style.bolderText}>Banheiros:</Text> {imovel.banheiros}</Text>
                                     <Text style={Style.text_info}><Text style={Style.bolderText}>Quartos:</Text> {imovel.quartos}</Text>
                                     <Text style={Style.text_info}><Text style={Style.bolderText}>Locado:</Text> {imovel.locado}</Text>
-                                    <ListItem>
-                                        <Button title="Alugar" color={buttonColor}></Button>
-                                        <Button title="Editar" color={buttonColor} onPress={() => {
-                                            props.navigation.navigate("EdicaoImovel", imovel);
-                                        }}></Button>
+                                    <ListItem style={Style.centeredListItem}>
+                                        <MaterialIcons name="call" size={30}></MaterialIcons>
+                                        <MaterialIcons name={"edit"} size={30} onPress={() => {props.navigation.navigate("EdicaoImovel", imovel)}}></MaterialIcons>
                                         <MaterialIcons  name={'delete'}  size={30} onPress={() => {dispatch({action: 'remover', value: imovel})}}/>
                                     </ListItem>
                                 </ListItem.Content>
@@ -83,6 +81,11 @@ const Style = StyleSheet.create({
     },
     listItem: {
         marginBottom: 10
+    },
+    centeredListItem: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%'
     }
 })
 
