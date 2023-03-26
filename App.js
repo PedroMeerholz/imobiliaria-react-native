@@ -6,7 +6,7 @@ import Consulta from "./src/components/Consulta";
 import Home from "./src/components/Home";
 import RegistroImovel from "./src/components/RegistroImovel";
 import { MaterialIcons } from '@expo/vector-icons';
-import {   ContextProvider } from "./src/context/Context";
+import { ContextProvider } from "./src/context/Context";
 
 export default (props) => {
   const Stack = createNativeStackNavigator();
@@ -17,7 +17,7 @@ export default (props) => {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Home">
               <Stack.Screen name="Home" component={Home} options={{title: 'Home'}}/>
-              <Stack.Screen name="CadastroImovel" component={RegistroImovel} options={{title: 'Registro de Imóveis'}}/>
+              <Stack.Screen name="CadastroImovel" component={RegistroImovel} options={{title: 'Cadastrar Imóvel'}}/>
               <Stack.Screen name="ConsultaImovel" component={Consulta} 
                 options={({navigation}) => { 
                   return {

@@ -1,21 +1,31 @@
 import React, {createContext, useReducer} from "react";
 
 const initialContext = {
-    imoveisAluguel: [
-        {
-        contrato: 'Aluguel',
-        tipo: 'Apartamento',
-        valor: 3200,
-        endereco: 'Rua Abacaxi, 92'
-    },
-    {
-        contrato: 'Compra',
-        tipo: 'Casa',
-        valor: 1500000,
-        endereco: 'Rua Abacaxi, 38'   
-    }
-]
+    imoveisAluguel: []
 };
+initialContext['imoveisAluguel'].push({
+    contrato: 'Aluguel',
+    tipo: 'Apartamento',
+    valorAluguel: 3200,
+    quartos: 2,
+    banheiros: 2,
+    locado: "Não",
+    condominio: 250,
+    endereco: 'Rua Abacaxi, 92',
+    valorVenda: 0
+});
+initialContext['imoveisAluguel'].push({
+    contrato: 'Compra',
+    tipo: 'Casa',
+    valorAluguel: 0,
+    quartos: 3,
+    banheiros: 3,
+    locado: "Sim",
+    condominio: 0,
+    endereco: 'Rua Abacaxi, 38',
+    valorVenda: 1500000  
+});
+
 const Context = createContext({});
 
 export const ContextProvider = (props) => {
@@ -25,6 +35,19 @@ export const ContextProvider = (props) => {
             return {
                 ...state, imoveisAluguel: newContext
             }
+        } else if(action.action == 'adicionar') {
+            const Imovel = {
+                contrato: action.value['contrato'],
+                tipo: action.value['tipo'],
+                valor: action.value['valorAluguel'],
+                condominio: action.value['condominio'],
+                endereco: action.value['endereco'],
+                quartos: action.value['quartos'],
+                banheiros: action.value['banheiros'],
+                locado: action.value['locado'],
+                valorVenda: action.value['valorVenda']
+            }
+            state['imoveisAluguel'].push(Imovel);
         }
         return state;
     }
