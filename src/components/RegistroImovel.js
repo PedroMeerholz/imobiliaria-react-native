@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, Text, TextInput, View, Switch, Image, ScrollView } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, ScrollView } from "react-native";
 import { Picker } from "@react-native-picker/picker"
 import { Button } from "@rneui/base";
 import Context from "../context/Context";
+import { findAllApartamento, insertIntoApartamento } from "../database/apartamento";
 
 function renderCondominio(onValueChangeFunction) {
     return (
@@ -88,12 +89,14 @@ const RegistroImovel = (props) => {
                         valorAluguel: aluguel ? contrato == 'Aluguel' : 0,
                         quartos: quartos,
                         banheiros: banheiros,
-                        locado: "Sim" ? true : "Não",
+                        locado: locado,
                         condominio: condominio ? moradia == 'Apartamento' : 0,
                         endereco: endereco,
                         valorVenda: valorVenda ? contrato == 'Compra' : 0
                     }
-                    dispatch({action: 'adicionar', value:imovel});
+                    if(moradia === "Apartamento") {
+                        insertIntoApartamento(imovel);
+                    }
                 }}/>
             </View> 
         </ScrollView>

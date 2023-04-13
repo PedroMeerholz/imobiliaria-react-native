@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -8,9 +8,20 @@ import RegistroImovel from "./src/components/RegistroImovel";
 import { MaterialIcons } from '@expo/vector-icons';
 import { ContextProvider } from "./src/context/Context";
 import EdicaoImovel from "./src/components/EdicaoImovel";
+import { createTableApartamento } from "./src/database/apartamento";
 
 export default (props) => {
   const Stack = createNativeStackNavigator();
+
+  async function init() {
+    await createTableApartamento();
+  }
+
+  useEffect(
+    () => {
+      init();
+    }, []
+  );
 
   return (
     <SafeAreaView style={{marginHorizontal: 10, marginTop: 50, flex: 1}}>
