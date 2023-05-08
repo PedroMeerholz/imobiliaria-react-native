@@ -68,7 +68,15 @@ export async function findUsuario(email) {
     }))
 }
 
-export async function login (email) {
-    const credenciais = await findUsuario(email);
-    console.log(credenciais);
+export async function alterPassword (email, senha) {
+    const db = DatabaseConnection.getConnection();
+    return new Promise((resolve, reject) => db.transaction(tx => {
+        tx.executeSql(`update usuario set senha = "${senha}" where email like "${email}";`, [], (_, { rows }) => {
+            console.log("All: " + JSON.stringify(rows));
+            resolve(rows);
+        }), (sqlError) => {
+            console.log(sqlError);
+        }}, (txError) => {
+        console.log(txError);
+    }))
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, SafeAreaView, StyleSheet, Text, View, ScrollView } from "react-native";
+import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 const Home = (props) => {
     const buttonColor = 'orange';
@@ -19,6 +19,11 @@ const Home = (props) => {
             <View style={Style.button}>
                 <Button title='Cadastrar Locatário' color={buttonColor} onPress={() => {
                     props.navigation.navigate("CadastroLocatario");
+                }}/>
+            </View>
+            <View style={Style.button}>
+                <Button title='Alterar minha senha' color={buttonColor} onPress={() => {
+                    props.navigation.navigate("AlterarSenha", {email: props.route.params.email});
                 }}/>
             </View>
         </SafeAreaView>

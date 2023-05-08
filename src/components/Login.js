@@ -18,8 +18,8 @@ export default (props) => {
             email: emailCadastro,
             senha: senhaCadastro
         }
-        console.warn(usuario);
         await insertIntoUsuario(usuario);
+        console.warn("Cadastro realizado com sucesso");
     }
 
     async function login() {
@@ -27,7 +27,7 @@ export default (props) => {
         usuario = usuario._array[0];
         if(usuario.email === emailLogin && usuario.senha === senhaLogin) {
             console.log("Credenciais corretas");
-            props.navigation.navigate("Home");
+            props.navigation.navigate("Home", {email: usuario.email});
         } else {
             console.log("Credenciais incorretas");
             return false;
