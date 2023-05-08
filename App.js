@@ -10,12 +10,15 @@ import { ContextProvider } from "./src/context/Context";
 import EdicaoImovel from "./src/components/EdicaoImovel";
 import RegistroLocatario from "./src/components/RegistroLocatario";
 import { createTableLocatario } from "./src/database/locatario";
+import Login from "./src/components/Login";
+import { createTableUsuario } from "./src/database/usuario";
 
 export default (props) => {
   const Stack = createNativeStackNavigator();
 
   async function queries() {
     await createTableLocatario();
+    await createTableUsuario();
   }
 
   useEffect(
@@ -24,13 +27,12 @@ export default (props) => {
     }, []
   );
 
-  //findAllLocatario();
-
   return (
     <SafeAreaView style={{marginHorizontal: 10, marginTop: 50, flex: 1}}>
       <ContextProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
+          <Stack.Navigator initialRouteName="Login">
+              <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
               <Stack.Screen name="Home" component={Home} options={{title: 'Home'}}/>
               <Stack.Screen name="CadastroImovel" component={RegistroImovel} options={{title: 'Cadastrar Imóvel'}}/>
               <Stack.Screen name="ConsultaImovel" component={Consulta} 
