@@ -1,5 +1,5 @@
-import * as SQLite from "expo-sqlite";
+import * as SQLite from 'expo-sqlite';
 
 export default DatabaseConnection = {
-    getConnection: () => SQLite.openDatabase("database.test2")
-}
+    getConnection: () => SQLite.openDatabase("database.test3"),
+};

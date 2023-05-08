@@ -3,7 +3,9 @@ import React, {createContext, useReducer} from "react";
 const initialContext = {
     imoveisAluguel: []
 };
+
 initialContext['imoveisAluguel'].push({
+    id: 1,
     contrato: 'Aluguel',
     tipo: 'Apartamento',
     valorAluguel: 3200,
@@ -12,19 +14,32 @@ initialContext['imoveisAluguel'].push({
     locado: "Não",
     condominio: 250,
     endereco: 'Rua Abacaxi, 92',
-    valorVenda: 0
+    valorVenda: 0,
+    locatario: undefined
 });
 initialContext['imoveisAluguel'].push({
-    contrato: 'Compra',
+    id: 2,
+    contrato: 'Aluguel',
     tipo: 'Casa',
-    valorAluguel: 0,
+    valorAluguel: 7000,
     quartos: 3,
     banheiros: 3,
     locado: "Sim",
     condominio: 0,
     endereco: 'Rua Abacaxi, 38',
-    valorVenda: 1500000  
+    valorVenda: 0,
+    locatario: undefined
 });
+
+let nextId = 3;
+
+export function incrementId() {
+    nextId += 1;
+}
+
+export function getNextId() {
+    return nextId;
+}
 
 const Context = createContext({});
 
@@ -51,6 +66,7 @@ export const ContextProvider = (props) => {
         } else if (action.action == 'editar') {
             let newContext = state.imoveisAluguel.filter(imovel => imovel.endereco !== action.value[0].endereco);
             const Imovel = {
+                id: action.value[1]['id'],
                 contrato: action.value[1]['contrato'],
                 tipo: action.value[1]['tipo'],
                 valorAluguel: action.value[1]['valorAluguel'],
@@ -59,7 +75,8 @@ export const ContextProvider = (props) => {
                 quartos: action.value[1]['quartos'],
                 banheiros: action.value[1]['banheiros'],
                 locado: action.value[1]['locado'],
-                valorVenda: action.value[1]['valorVenda']
+                valorVenda: action.value[1]['valorVenda'],
+                locatario: action.value[1]['locatario']
             }
             newContext.push(Imovel);
             return {

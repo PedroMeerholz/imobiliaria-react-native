@@ -2,8 +2,7 @@ import React, { useContext, useState } from "react";
 import { StyleSheet, Text, TextInput, View, Image, ScrollView } from "react-native";
 import { Picker } from "@react-native-picker/picker"
 import { Button } from "@rneui/base";
-import Context from "../context/Context";
-import { findAllApartamento, insertIntoApartamento } from "../database/apartamento";
+import Context, { getNextId, incrementId } from "../context/Context";
 
 function renderCondominio(onValueChangeFunction) {
     return (
@@ -42,9 +41,8 @@ const RegistroImovel = (props) => {
     const [valorVenda, setValorVenda] = useState(0);
     const [quartos, setQuartos] = useState(0); 
     const [banheiros, setBanheiros] = useState(0);
-    const [locado, setLocado] = useState(false);
+    const [locado, setLocado] = useState("Não");
     const [condominio, setCondominio] = useState(0);
-    const toggleSwitch = () => setLocado(previousState => !previousState);
 
     return (
         <ScrollView>
@@ -84,19 +82,19 @@ const RegistroImovel = (props) => {
                 </Picker>
                 <Button title={'Cadastrar'} color='orange' onPress={() => {
                     const imovel = {
+                        id: getNextId(),
                         contrato: contrato,
                         tipo: moradia,
-                        valorAluguel: aluguel ? contrato == 'Aluguel' : 0,
+                        valorAluguel: contrato === 'Aluguel' ? aluguel : 0,
                         quartos: quartos,
                         banheiros: banheiros,
                         locado: locado,
-                        condominio: condominio ? moradia == 'Apartamento' : 0,
+                        condominio: moradia === 'Apartamento' ? condominio : 0,
                         endereco: endereco,
-                        valorVenda: valorVenda ? contrato == 'Compra' : 0
+                        valorVenda: contrato === 'Compra' ? valorVenda : 0
                     }
-                    if(moradia === "Apartamento") {
-                        insertIntoApartamento(imovel);
-                    }
+                    dispatch({action: 'adicionar', value:imovel});
+                    incrementId();
                 }}/>
             </View> 
         </ScrollView>

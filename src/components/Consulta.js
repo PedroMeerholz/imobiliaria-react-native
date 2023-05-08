@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { ListItem } from "@rneui/themed";
-import { Button, Image, StyleSheet, View, ScrollView, Text } from "react-native";
+import { Image, StyleSheet, View, ScrollView, Text } from "react-native";
 import Context from "../context/Context";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -20,6 +20,10 @@ function renderValorCompra(value) {
     return (
         <Text style={Style.text_info}><Text style={Style.bolderText}>Valor:</Text> R${value}</Text>
     );
+}
+
+function renderLocatario(value) {
+    return (<Text style={Style.text_info}><Text style={Style.bolderText}>Locatário:</Text> {value}</Text>);
 }
 
 const Consulta = (props) => {
@@ -43,6 +47,7 @@ const Consulta = (props) => {
                                     <Text style={Style.text_info}><Text style={Style.bolderText}>Banheiros:</Text> {imovel.banheiros}</Text>
                                     <Text style={Style.text_info}><Text style={Style.bolderText}>Quartos:</Text> {imovel.quartos}</Text>
                                     <Text style={Style.text_info}><Text style={Style.bolderText}>Locado:</Text> {imovel.locado}</Text>
+                                    {imovel.locatario != undefined && renderLocatario(imovel.locatario)}
                                     <ListItem style={Style.centeredListItem}>
                                         <MaterialIcons name="call" size={30}></MaterialIcons>
                                         <MaterialIcons name={"edit"} size={30} onPress={() => {props.navigation.navigate("EdicaoImovel", imovel)}}></MaterialIcons>

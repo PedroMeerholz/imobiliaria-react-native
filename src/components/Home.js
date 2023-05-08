@@ -16,6 +16,11 @@ const Home = (props) => {
                     props.navigation.navigate("ConsultaImovel");
                 }}/>
             </View>
+            <View style={Style.button}>
+                <Button title='Cadastrar Locatário' color={buttonColor} onPress={() => {
+                    props.navigation.navigate("CadastroLocatario");
+                }}/>
+            </View>
         </SafeAreaView>
     );
 }
