@@ -4,14 +4,13 @@ import { View, StyleSheet, Text, TextInput } from "react-native";
 import { alterPassword, findAllUsuario } from "../database/usuario";
 
 export default (props) => {
+    console.warn(props.route.params);
     const [novaSenha, setNovaSenha] = useState("");
 
     async function alterarSenha() {
         await alterPassword(props.route.params['email'], novaSenha);
         await findAllUsuario();
     }
-
-    console.warn(props.route.params['email']);
 
     return (
         <View style={Style.view}>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { TextInput, View, StyleSheet } from 'react-native';
 import { Divider } from '@rneui/themed';
 import { findUsuario, insertIntoUsuario } from '../database/usuario';
+import { cadastrarUsuarioApi, loginApi } from '../requests/request_credenciais';
 
 export default (props) => {
     const [emailLogin, setEmailLogin] = useState("");
@@ -17,20 +18,21 @@ export default (props) => {
             nome: nomeCadastro,
             email: emailCadastro,
             senha: senhaCadastro
-        }
-        await insertIntoUsuario(usuario);
+        };
+        console.log(await cadastrarUsuarioApi(usuario));
         console.warn("Cadastro realizado com sucesso");
     }
 
     async function login() {
-        let usuario = await findUsuario(emailLogin);
-        usuario = usuario._array[0];
-        if(usuario.email === emailLogin && usuario.senha === senhaLogin) {
-            console.log("Credenciais corretas");
-            props.navigation.navigate("Home", {email: usuario.email});
+        const credenciais = {
+            email: emailLogin,
+            senha: senhaLogin
+        };
+        const token = await loginApi(credenciais);
+        if(token != undefined) {
+            props.navigation.navigate("Home", {tokenSessao: token['token'], email: credenciais['email']});
         } else {
-            console.log("Credenciais incorretas");
-            return false;
+            console.warn("Não foi possível realizar o login");
         }
     }
 

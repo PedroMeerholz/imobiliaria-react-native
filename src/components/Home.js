@@ -2,6 +2,7 @@ import React from "react";
 import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 const Home = (props) => {
+    console.warn(props);
     const buttonColor = 'orange';
     return (
         <SafeAreaView style={Style.safeAreaView}>
@@ -23,7 +24,7 @@ const Home = (props) => {
             </View>
             <View style={Style.button}>
                 <Button title='Alterar minha senha' color={buttonColor} onPress={() => {
-                    props.navigation.navigate("AlterarSenha", {email: props.route.params.email});
+                    props.navigation.navigate("AlterarSenha", {tokenSessao: props.route.params.tokenSessao, email: props.route.params.email});
                 }}/>
             </View>
         </SafeAreaView>
