@@ -9,7 +9,7 @@ const Home = (props) => {
             <Text style={Style.title}>Imobiliária On-line</Text>
             <View style={Style.button}>
                 <Button title='Cadastrar Imóvel' color={buttonColor} onPress={() => {
-                    props.navigation.navigate("CadastroImovel");
+                    props.navigation.navigate("CadastroImovel", {tokenSessao: props.route.params.tokenSessao});
                 }}/>
             </View>
             <View style={Style.button}>
