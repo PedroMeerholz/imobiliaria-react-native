@@ -2,8 +2,8 @@ import { Button, Text } from '@rneui/base';
 import React, { useState } from 'react';
 import { TextInput, View, StyleSheet } from 'react-native';
 import { Divider } from '@rneui/themed';
-import { findUsuario, insertIntoUsuario } from '../database/usuario';
 import { cadastrarUsuarioApi, loginApi } from '../requests/request_credenciais';
+import { addLogin } from '../database/usuario';
 
 export default (props) => {
     const [emailLogin, setEmailLogin] = useState("");
@@ -29,11 +29,19 @@ export default (props) => {
             senha: senhaLogin
         };
         const token = await loginApi(credenciais);
-        if(token != undefined) {
+        console.warn(token);
+        await addLogin(credenciais, token['token']);
+        if(token != undefined && !token['error']) {
             props.navigation.navigate("Home", {tokenSessao: token['token'], email: credenciais['email']});
         } else {
             console.warn("Não foi possível realizar o login");
         }
+
+        // if(token === undefined || token.status != 400) {
+
+        // } else {
+
+        // }
     }
 
     return (

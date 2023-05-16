@@ -20,8 +20,6 @@ export default (props) => {
   async function queries() {
     await createTableLocatario();
     await createTableUsuario();
-    // await cadastrarUsuarioApi();
-    // await loginApi();
   }
 
   useEffect(
