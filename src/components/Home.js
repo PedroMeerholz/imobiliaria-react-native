@@ -2,7 +2,6 @@ import React from "react";
 import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 const Home = (props) => {
-    console.warn(props);
     const buttonColor = 'orange';
     return (
         <SafeAreaView style={Style.safeAreaView}>

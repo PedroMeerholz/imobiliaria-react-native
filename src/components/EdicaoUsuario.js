@@ -1,15 +1,23 @@
 import { Button } from "@rneui/base";
 import React, { useState } from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native";
-import { alterPassword, findAllUsuario } from "../database/usuario";
+import { findUsuario } from "../database/usuario.js";
+import { atualizarSenhaUsuario } from "../requests/request_usuario.js";
 
 export default (props) => {
-    console.warn(props.route.params);
     const [novaSenha, setNovaSenha] = useState("");
 
     async function alterarSenha() {
-        await alterPassword(props.route.params['email'], novaSenha);
-        await findAllUsuario();
+        const credenciaisUsuario = await findUsuario(props.route.params['email']);
+        console.warn(credenciaisUsuario);
+        const usuario = {
+            id: credenciaisUsuario.id,
+            nome: "Usuário padrão",
+            email: credenciaisUsuario.email,
+            senha: novaSenha
+        }
+        // await alterPassword(props.route.params['email'], novaSenha);
+        await atualizarSenhaUsuario(usuario);
     }
 
     return (

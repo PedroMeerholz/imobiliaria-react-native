@@ -73,7 +73,7 @@ export async function findUsuario(email) {
     console.log("Consultando...");
     const db = DatabaseConnection.getConnection();
     return new Promise((resolve, reject) => db.transaction(tx => {
-        tx.executeSql(`select id, email from credenciais where email = "${email}" order by id desc limit 1`, [], (_, { rows }) => {
+        tx.executeSql(`select * from credenciais where email = "${email}"`, [], (_, { rows }) => {
             resolve(rows);
         }), (sqlError) => {
             console.log(sqlError);

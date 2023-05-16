@@ -12,7 +12,7 @@ import RegistroLocatario from "./src/components/RegistroLocatario";
 import { createTableLocatario } from "./src/database/locatario";
 import Login from "./src/components/Login";
 import { createTableUsuario } from "./src/database/usuario";
-import AlteracaoSenha from "./src/components/AlteracaoSenha";
+import AlteracaoSenha from "./src/components/EdicaoUsuario";
 
 export default (props) => {
   const Stack = createNativeStackNavigator();
