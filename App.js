@@ -12,7 +12,8 @@ import RegistroLocatario from "./src/components/RegistroLocatario";
 import { createTableLocatario } from "./src/database/locatario";
 import Login from "./src/components/Login";
 import { createTableUsuario } from "./src/database/usuario";
-import AlteracaoSenha from "./src/components/EdicaoUsuario";
+import EdicaoUsuario from "./src/components/EdicaoUsuario";
+import { createTableUsuario } from "./src/database/usuario";
 
 export default (props) => {
   const Stack = createNativeStackNavigator();
@@ -49,7 +50,7 @@ export default (props) => {
                 }}/>
               <Stack.Screen name="EdicaoImovel" component={EdicaoImovel} options={{title: 'Editar Imóvel'}}/>
               <Stack.Screen name="CadastroLocatario" component={RegistroLocatario} options={{title: 'Cadastrar Locatário'}}/>
-              <Stack.Screen name="AlterarSenha" component={AlteracaoSenha}/>
+              <Stack.Screen name="AlterarSenha" component={EdicaoUsuario}/>
           </Stack.Navigator>
         </NavigationContainer>
       </ContextProvider>

@@ -81,3 +81,18 @@ export async function findUsuario(email) {
         console.log(txError);
     }))
 }
+
+export async function deleteCredenciais() {
+    const db = DatabaseConnection.getConnection();
+    const query = `
+        DELETE FROM credenciais;
+    `;
+    db.transaction(tx => {
+        tx.executeSql(query);
+    }, (error) => {
+        console.log("error call back: " + JSON.stringify(error));
+        console.log(error);
+    }, () => {
+        console.log("[credenciais] Removed");
+    });
+}

@@ -29,7 +29,7 @@ export default (props) => {
             senha: senhaLogin
         };
         const token = await loginApi(credenciais);
-        console.warn(token);
+        console.log(token);
         await addLogin(credenciais, token['token']);
         if(token != undefined && !token['error']) {
             props.navigation.navigate("Home", {tokenSessao: token['token'], email: credenciais['email']});
