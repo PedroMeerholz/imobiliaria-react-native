@@ -3,7 +3,7 @@ import { ListItem } from "@rneui/themed";
 import { Image, StyleSheet, View, ScrollView, Text } from "react-native";
 import Context from "../context/Context";
 import { MaterialIcons } from "@expo/vector-icons";
-import { consultarImovel } from "../requests/request_imovel";
+import { consultarImovel, removerImovel } from "../requests/request_imovel.js";
 
 // function renderCondominio(value) {
 //     return (
@@ -32,11 +32,13 @@ async function carregarImoveis(token) {
     return imoveis;
 }
 
-const Consulta = async (props) => {
+const Consulta = (props) => {
     const [imoveis, setImoveis] = useState([]);
 
     async function carregarLista() {
+        console.log("Função");
         const listaImovelApi = await consultarImovel(props.route.params.tokenSessao);
+        console.log(listaImovelApi);
         setImoveis(listaImovelApi);
     }
 
@@ -53,25 +55,31 @@ const Consulta = async (props) => {
                 {
                     imoveis.map((imovel) => {
                         return (
-                            <ListItem bottomDivider style={Style.listItem}> {/*key={[imovel.id]}*/}
+                            <ListItem bottomDivider style={Style.listItem} key={[imovel.id]}>
                                 <ListItem.Content>
                                     <Image style={Style.image} source={{uri:"https://emccamp.com.br//box/uploads/2021/06/Apartamento-decorado-confira-5-dicas-de-decoracao-1.jpg"}}/>
-                                    {/* <Text style={Style.text_info}><Text style={Style.bolderText}>Endereço:</Text> {imovel.endereco}</Text>
-                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Moradia:</Text> {imovel.tipoImovel}</Text>
-                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Tipo contrato:</Text> {imovel.tipoCadastro}</Text>
-                                    {/* {imovel.contrato == 'Compra' && renderValorCompra(imovel.valorVenda)}
-                                    {imovel.contrato == 'Aluguel' && renderValorAluguel(imovel.valorAluguel)} */}
-                                    {/* <Text style={Style.text_info}><Text style={Style.bolderText}>Valor:</Text> R${imovel.valorAluguel}</Text> */}
-                                    {/* {imovel.tipo == 'Apartamento' && renderCondominio(imovel.condominio)} */}
-                                    {/* <Text style={Style.text_info}><Text style={Style.bolderText}>Condomínio:</Text> R${imovel.valorCondominio}</Text>
+                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Endereço:</Text> {imovel.endereco}</Text>
+                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Moradia:</Text> {imovel.tipoImovel === 1 ? "Apartamento" : "Casa"}</Text>
+                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Tipo contrato:</Text> {imovel.tipoCadastro === 1 ? "Venda" : "Locação"}</Text>
+                                    {imovel.contrato == 'Compra' && renderValorCompra(imovel.valorVenda)}
+                                    {imovel.contrato == 'Aluguel' && renderValorAluguel(imovel.valorAluguel)}
+                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Valor:</Text> R${imovel.valorAluguel}</Text>
+                                    {imovel.tipo == 'Apartamento' && renderCondominio(imovel.condominio)}
+                                    {<Text style={Style.text_info}><Text style={Style.bolderText}>Condomínio:</Text> R${imovel.valorCondominio}</Text>}
                                     <Text style={Style.text_info}><Text style={Style.bolderText}>Banheiros:</Text> {imovel.numeroBanheiros}</Text>
-                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Quartos:</Text> {imovel.numveroQuartos}</Text>
-                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Locado:</Text> {imovel.locado}</Text> */}
-                                    {/* {imovel.locatario != undefined && renderLocatario(imovel.locatario)} */}
+                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Quartos:</Text> {imovel.numeroQuartos}</Text>
+                                    <Text style={Style.text_info}><Text style={Style.bolderText}>Locado:</Text> {imovel.locado === "true" ? "Sim" : "Não"}</Text>
+                                    {imovel.locatario != undefined && renderLocatario(imovel.locatario)}
                                     <ListItem style={Style.centeredListItem}>
                                         <MaterialIcons name="call" size={30}></MaterialIcons>
                                         <MaterialIcons name={"edit"} size={30} onPress={() => {props.navigation.navigate("EdicaoImovel", imovel)}}></MaterialIcons>
-                                        <MaterialIcons  name={'delete'}  size={30} onPress={() => {dispatch({action: 'remover', value: imovel})}}/>
+                                        <MaterialIcons  name={'delete'}  size={30} onPress={
+                                            async () => {
+                                                const token = props.route.params.tokenSessao;
+                                                removerImovel(imovel.id, token);
+                                                await consultarImovel(token);
+                                            }
+                                        }/>
                                     </ListItem>
                                 </ListItem.Content>
                             </ListItem>
