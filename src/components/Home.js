@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { deleteCredenciais } from "../database/usuario";
 
 const Home = (props) => {
     console.warn(props);
@@ -25,6 +26,12 @@ const Home = (props) => {
             <View style={Style.button}>
                 <Button title='Alterar minha senha' color={buttonColor} onPress={() => {
                     props.navigation.navigate("AlterarSenha", {tokenSessao: props.route.params.tokenSessao, email: props.route.params.email});
+                }}/>
+            </View>
+            <View style={Style.button}>
+                <Button title='Sair' color={buttonColor} onPress={async () => {
+                    await deleteCredenciais();
+                    props.navigation.goBack();
                 }}/>
             </View>
         </SafeAreaView>

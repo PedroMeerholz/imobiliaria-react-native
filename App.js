@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { MaterialIcons } from '@expo/vector-icons';
 import Consulta from "./src/components/Consulta.js";
 import Home from "./src/components/Home.js";
 import RegistroImovel from "./src/components/RegistroImovel.js";

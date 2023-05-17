@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { StyleSheet, Text, TextInput, View, Switch, Image, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, TextInput, View, Image, ScrollView } from "react-native";
 import { Picker } from "@react-native-picker/picker"
 import { Button } from "@rneui/base";
 import { atualizarImovel } from "../requests/request_imovel";
@@ -79,18 +79,7 @@ const RegistroImovel = (props) => {
                     <Picker.Item label="Não" value={"Não"}/>
                     <Picker.Item label="Sim" value={"Sim"}/>
                 </Picker>
-                <Button title={'Atualizar'} color='orange' onPress={() => {
-                    // const currentImovel = {
-                    //     tipoCadastro: props.route != null && props.route.params.imovel != null ? props.route.params.imovel.contrato : '',
-                    //     endereco: props.route != null && props.route.params.imovel != null ? props.route.params.imovel.endereco : '',
-                    //     tipoImovel: props.route != null && props.route.params.imovel != null ? props.route.params.imovel.tipo : '',
-                    //     valorAluguel: props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.valorAluguel) : 0,
-                    //     numeroQuartos: props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.numeroQuartos) : 0,
-                    //     numeroBanheiros: props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.numeroBanheiros) : 0,
-                    //     locado: props.route != null && props.route.params.imovel != null ? verifyLocado(props.route.params.imovel.locado) : false,
-                    //     valorCondominio: props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.valorCondominio) : 0,
-                    // }
-                    
+                <Button title={'Atualizar'} color='orange' onPress={() => {                    
                     const newImovel = {
                         id: props.route.params.imovel.id,
                         endereco: endereco,
