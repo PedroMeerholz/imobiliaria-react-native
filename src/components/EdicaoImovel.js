@@ -2,70 +2,43 @@ import React, { useContext, useState } from "react";
 import { StyleSheet, Text, TextInput, View, Switch, Image, ScrollView } from "react-native";
 import { Picker } from "@react-native-picker/picker"
 import { Button } from "@rneui/base";
-import Context from "../context/Context";
-
-function renderCondominio(onValueChangeFunction, value) {
-    return (
-        <View>
-            <Text>Valor condomínio:</Text>
-            <TextInput style={Style.textInput} onValueChange={onValueChangeFunction} value={value} keyboardType='numeric'/>
-        </View>
-    );
-}
-
-function renderAluguel(onValueChangeFunction, value) {
-    return (
-        <View>
-            <Text>Valor Aluguel:</Text>
-            <TextInput style={Style.textInput} onChangeText={onValueChangeFunction} value={value} keyboardType='numeric'/>
-        </View>
-    );
-}
-
-function renderCompra(onValueChangeFunction, value) {
-    return (
-        <View>
-            <Text>Valor Compra:</Text>
-            <TextInput style={Style.textInput} onChangeText={onValueChangeFunction} value={value} keyboardType='numeric'/>
-        </View>
-    );
-}
+import { atualizarImovel } from "../requests/request_imovel";
 
 function verifyLocado(value) {
-    return true ? value == "Sim" : false;
+    const locado = value === "true" ? "Sim" : "Não";
+    return locado;
 }
 
 const RegistroImovel = (props) => {
-    const {state, dispatch} = useContext(Context);
+    console.warn(props.route.params.imovel);
 
     const [contrato, setContrato] = useState(
-        props.route != null && props.route.params != null ? props.route.params.contrato : ''
+        props.route != null && props.route.params.imovel != null ? props.route.params.imovel.tipoCadastro : ''
     );
     const [endereco, setEndereco] = useState(
-        props.route != null && props.route.params != null ? props.route.params.endereco : ''
+        props.route != null && props.route.params.imovel != null ? props.route.params.imovel.endereco : ''
     );
     const [moradia, setMoradia] = useState(
-        props.route != null && props.route.params != null ? props.route.params.tipo : ''
+        props.route != null && props.route.params.imovel != null ? props.route.params.imovel.tipoImovel : ''
     );
-    const [aluguel, setAluguel] = useState(
-        props.route != null && props.route.params != null ? String(props.route.params.valorAluguel) : 0
-    );
-    const [valorVenda, setValorVenda] = useState(
-        props.route != null && props.route.params != null ? String(props.route.params.valorVenda) : 0
+    const [valor, setValor] = useState(
+        props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.valorAluguel) : 0
     );
     const [quartos, setQuartos] = useState(
-        props.route != null && props.route.params != null ? String(props.route.params.quartos) : 0
+        props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.numeroQuartos) : 0
     ); 
     const [banheiros, setBanheiros] = useState(
-        props.route != null && props.route.params != null ? String(props.route.params.banheiros) : 0
+        props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.numeroBanheiros) : 0
     );
     const [locado, setLocado] = useState(
-        props.route != null && props.route.params != null ? verifyLocado(props.route.params.locado) : false
+        props.route != null && props.route.params.imovel != null ? verifyLocado(props.route.params.imovel.locado) : false
     );
     const [condominio, setCondominio] = useState(
-        props.route != null && props.route.params != null ? String(props.route.params.condominio) : 0
+        props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.valorCondominio) : 0
     );
-    const toggleSwitch = () => setLocado(previousState => !previousState);
+    const [foto, setFoto] = useState(
+        props.route != null && props.route.params.imovel != null ? props.route.params.imovel.foto : 0
+    );
 
     return (
         <ScrollView>
@@ -89,13 +62,16 @@ const RegistroImovel = (props) => {
                     <Picker.Item label="Apartamento" value={"Apartamento"}/>
                     <Picker.Item label="Casa" value={"Casa"}/>
                 </Picker>
-                {contrato == 'Aluguel' && renderAluguel(setAluguel, aluguel)}
-                {contrato == 'Compra' && renderCompra(setValorVenda, valorVenda)}
-                {moradia == 'Apartamento' && renderCondominio(setCondominio, condominio)}
+                <Text>Valor:</Text>
+                <TextInput style={Style.textInput} value={valor} onValueChange={setValor}/>
+                <Text>Condomínio:</Text>
+                <TextInput style={Style.textInput} value={condominio} onValueChange={setCondominio}/>
                 <Text>Número de quartos:</Text>
                 <TextInput style={Style.textInput} onChangeText={setQuartos} value={quartos} keyboardType='numeric'/>
                 <Text>Número de banheiros:</Text>
                 <TextInput style={Style.textInput} onChangeText={setBanheiros} value={banheiros} keyboardType='numeric'/>
+                <Text>Foto</Text>
+                <TextInput style={Style.textInput} onChangeText={setFoto} value={foto}/>
                 <Text>Locado:</Text>
                 <Picker selectedValue={locado} onValueChange={(itemValue, itemIndex) => {
                     setLocado(itemValue);
@@ -103,31 +79,31 @@ const RegistroImovel = (props) => {
                     <Picker.Item label="Não" value={"Não"}/>
                     <Picker.Item label="Sim" value={"Sim"}/>
                 </Picker>
-                <Button title={'Cadastrar'} color='orange' onPress={() => {
-                    const currentImovel = {
-                        contrato: props.route != null && props.route.params != null ? props.route.params.contrato : '',
-                        endereco: props.route != null && props.route.params != null ? props.route.params.endereco : '',
-                        tipo: props.route != null && props.route.params != null ? props.route.params.tipo : '',
-                        valorAluguel: props.route != null && props.route.params != null ? String(props.route.params.valorAluguel) : 0,
-                        valorVenda: props.route != null && props.route.params != null ? String(props.route.params.valorVenda) : 0,
-                        quartos: props.route != null && props.route.params != null ? String(props.route.params.quartos) : 0,
-                        banheiros: props.route != null && props.route.params != null ? String(props.route.params.banheiros) : 0,
-                        locado: props.route != null && props.route.params != null ? verifyLocado(props.route.params.locado) : false,
-                        condominio: props.route != null && props.route.params != null ? String(props.route.params.condominio) : 0,
-                    }
+                <Button title={'Atualizar'} color='orange' onPress={() => {
+                    // const currentImovel = {
+                    //     tipoCadastro: props.route != null && props.route.params.imovel != null ? props.route.params.imovel.contrato : '',
+                    //     endereco: props.route != null && props.route.params.imovel != null ? props.route.params.imovel.endereco : '',
+                    //     tipoImovel: props.route != null && props.route.params.imovel != null ? props.route.params.imovel.tipo : '',
+                    //     valorAluguel: props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.valorAluguel) : 0,
+                    //     numeroQuartos: props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.numeroQuartos) : 0,
+                    //     numeroBanheiros: props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.numeroBanheiros) : 0,
+                    //     locado: props.route != null && props.route.params.imovel != null ? verifyLocado(props.route.params.imovel.locado) : false,
+                    //     valorCondominio: props.route != null && props.route.params.imovel != null ? String(props.route.params.imovel.valorCondominio) : 0,
+                    // }
                     
                     const newImovel = {
-                        contrato: contrato,
-                        tipo: moradia,
-                        valorAluguel: aluguel,
-                        quartos: quartos,
-                        banheiros: banheiros,
-                        locado: locado,
-                        condominio: condominio,
+                        id: props.route.params.imovel.id,
                         endereco: endereco,
-                        valorVenda: valorVenda
+                        tipoImovel: moradia === 'Apartamento' ? 1 : 2,
+                        valorAluguel: valor,
+                        valorCondominio: condominio,
+                        numeroQuartos: quartos,
+                        numeroBanheiros: banheiros,
+                        foto: foto,
+                        locado: locado === 'Sim' ? true : false,
+                        tipoCadastro: contrato === 'Compra' ? 1 : 2,
                     }
-                    dispatch({action: 'editar', value:[currentImovel, newImovel]});
+                    atualizarImovel(newImovel, props.route.params.tokenSessao);
                 }}/>
             </View> 
         </ScrollView>

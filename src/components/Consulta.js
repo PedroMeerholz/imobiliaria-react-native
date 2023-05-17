@@ -27,11 +27,6 @@ function renderLocatario(value) {
     return (<Text style={Style.text_info}><Text style={Style.bolderText}>Locatário:</Text> {value}</Text>);
 }
 
-async function carregarImoveis(token) {
-    const imoveis = await consultarImovel(token);
-    return imoveis;
-}
-
 const Consulta = (props) => {
     const [imoveis, setImoveis] = useState([]);
 
@@ -71,8 +66,8 @@ const Consulta = (props) => {
                                     <Text style={Style.text_info}><Text style={Style.bolderText}>Locado:</Text> {imovel.locado === "true" ? "Sim" : "Não"}</Text>
                                     {imovel.locatario != undefined && renderLocatario(imovel.locatario)}
                                     <ListItem style={Style.centeredListItem}>
-                                        <MaterialIcons name="call" size={30}></MaterialIcons>
-                                        <MaterialIcons name={"edit"} size={30} onPress={() => {props.navigation.navigate("EdicaoImovel", imovel)}}></MaterialIcons>
+                                        <MaterialIcons name="call" size={30}/>
+                                        <MaterialIcons name={"edit"} size={30} onPress={() => {props.navigation.navigate("EdicaoImovel", {imovel: imovel, tokenSessao: props.route.params.tokenSessao})}}/>
                                         <MaterialIcons  name={'delete'}  size={30} onPress={
                                             async () => {
                                                 const token = props.route.params.tokenSessao;

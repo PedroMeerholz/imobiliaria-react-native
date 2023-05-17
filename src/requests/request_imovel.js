@@ -42,6 +42,27 @@ export async function consultarImovel(token) {
     }
 }
 
+export async function atualizarImovel(imovel, token) {
+    console.log("Token função: " + token);
+    try {
+        const response = await fetch(
+            "http://ec2-54-166-238-5.compute-1.amazonaws.com/imoveis/", {
+                method: "PUT",
+                headers: {
+                    'Content-type': 'application/json',
+                    'apikey': api_key,
+                    'token': token
+                },
+                body: JSON.stringify(imovel)
+            }
+        );
+        console.log(response);
+        console.warn("Imóvel atualizado com sucesso");
+    } catch(excecao) {
+        console.log(excecao);
+    }
+}
+
 export async function removerImovel(idImovel, token) {
     try {
         const response = await fetch(
